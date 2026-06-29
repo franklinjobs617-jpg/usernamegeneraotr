@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f8f9fc;
+  --surface: #ffffff;
+  --brand: #6366f1;
+  --brand-dark: #4f46e5;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Smooth copy button animation */
+.copy-btn-success {
+  animation: flash 0.3s ease;
+}
+
+@keyframes flash {
+  0%   { background-color: #6366f1; }
+  50%  { background-color: #10b981; }
+  100% { background-color: #6366f1; }
+}
+
+/* Tool card hover */
+.username-card:hover {
+  border-color: #818cf8;
+  background-color: #f0f4ff;
+}
+
+/* Spinner */
+.spinner {
+  border: 2px solid #e5e7eb;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Focus ring */
+input:focus, button:focus-visible, select:focus {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
