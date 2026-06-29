@@ -3,7 +3,8 @@ import { generateUsernames } from "@/lib/generator";
 import { generateWithDoubao } from "@/lib/doubao";
 import type { Style } from "@/lib/generator";
 
-export const runtime = "edge";
+// Removed: export const runtime = "edge"
+// Edge runtime causes static generation timeout on all pages
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,12 +24,10 @@ export async function POST(req: NextRequest) {
 
     let usernames: string[] | null = null;
 
-    // Try Doubao first
     if (apiKey && modelId) {
       usernames = await generateWithDoubao(keyword, style as Style, 20, apiKey, modelId);
     }
 
-    // Fallback to local generator
     if (!usernames || usernames.length < 5) {
       usernames = generateUsernames({
         keyword,
@@ -42,7 +41,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    return NextResponse.json({ usernames, source: usernames ? "ai" : "local" });
+    return NextResponse.json({ usernames });
   } catch (err) {
     console.error("Generate route error:", err);
     return NextResponse.json({ error: "Generation failed" }, { status: 500 });

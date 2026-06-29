@@ -11,18 +11,18 @@ const PRODUCTS: Product[] = [
   {
     name: "NordPass",
     tagline: "Securely store all your usernames and passwords in one place. Autofills on any device.",
-    href: "https://nordpass.com", // replace with affiliate link
+    href: "https://nordpass.com",
     badge: "Most popular",
   },
   {
     name: "Dashlane",
     tagline: "Unlimited password storage with real-time breach alerts and dark web monitoring.",
-    href: "https://dashlane.com", // replace with affiliate link
+    href: "https://dashlane.com",
   },
   {
     name: "1Password",
     tagline: "Trusted by 15M+ people. One click to fill usernames and passwords everywhere.",
-    href: "https://1password.com", // replace with affiliate link
+    href: "https://1password.com",
   },
 ];
 
@@ -37,13 +37,13 @@ export default function AffiliateCard() {
           className="p-2 rounded-xl shrink-0"
           style={{ background: "rgba(13,122,123,0.3)" }}
         >
-          <ShieldCheck className="text-teal-light" size={20} />
+          <ShieldCheck size={20} style={{ color: "#b2e8e8" }} />
         </div>
         <div>
           <h2 className="text-base font-bold text-white mb-0.5">
             Save your username securely
           </h2>
-          <p className="text-sm text-gray-400 leading-relaxed">
+          <p className="text-sm leading-relaxed" style={{ color: "#9ca3af" }}>
             A password manager stores all your handles and passwords — autofills instantly on every device and browser.
           </p>
         </div>
@@ -56,19 +56,7 @@ export default function AffiliateCard() {
             href={p.href}
             target="_blank"
             rel="noopener noreferrer sponsored"
-            className="group flex flex-col justify-between rounded-xl p-4 transition-all"
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.08)",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "rgba(13,122,123,0.2)";
-              (e.currentTarget as HTMLElement).style.borderColor = "rgba(13,122,123,0.5)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)";
-              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)";
-            }}
+            className="affiliate-card flex flex-col justify-between rounded-xl p-4"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -82,18 +70,35 @@ export default function AffiliateCard() {
                   </span>
                 )}
               </div>
-              <p className="text-xs text-gray-400 leading-relaxed">{p.tagline}</p>
+              <p className="text-xs leading-relaxed" style={{ color: "#9ca3af" }}>
+                {p.tagline}
+              </p>
             </div>
-            <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-teal-light">
+            <div
+              className="mt-3 flex items-center gap-1 text-xs font-semibold"
+              style={{ color: "#b2e8e8" }}
+            >
               Try free <ExternalLink size={11} />
             </div>
           </a>
         ))}
       </div>
 
-      <p className="text-xs text-gray-600 mt-4">
+      <p className="text-xs mt-4" style={{ color: "#4b5563" }}>
         * Affiliate links — we may earn a commission at no extra cost to you.
       </p>
+
+      <style>{`
+        .affiliate-card {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.08);
+          transition: background 0.15s, border-color 0.15s;
+        }
+        .affiliate-card:hover {
+          background: rgba(13,122,123,0.2);
+          border-color: rgba(13,122,123,0.5);
+        }
+      `}</style>
     </section>
   );
 }
