@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Link from "next/link";
 
@@ -12,9 +13,7 @@ export const metadata: Metadata = {
     "Generate unique, creative usernames for Instagram, TikTok, gaming, Discord, and more. Free username generator — 20 ideas in seconds.",
   keywords: ["username generator", "random username generator", "instagram username generator", "gaming username generator"],
   icons: {
-    icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     apple: "/apple-touch-icon.svg",
   },
   openGraph: {
@@ -41,21 +40,38 @@ const PLATFORM_LINKS = [
   { label: "TikTok",    href: "/tiktok-username-generator" },
   { label: "Discord",   href: "/discord-username-generator" },
   { label: "Xbox",      href: "/xbox-username-generator" },
-  { label: "Roblox",   href: "/roblox-username-generator" },
+  { label: "Roblox",    href: "/roblox-username-generator" },
 ];
 
 const STYLE_LINKS = [
-  { label: "Aesthetic",    href: "/aesthetic-username-generator" },
-  { label: "Gaming",       href: "/gaming-username-generator" },
-  { label: "Cute",         href: "/cute-username-generator" },
-  { label: "Goth",         href: "/goth-username-generator" },
-  { label: "Random",       href: "/random-username-generator" },
+  { label: "Aesthetic", href: "/aesthetic-username-generator" },
+  { label: "Gaming",    href: "/gaming-username-generator" },
+  { label: "Cute",      href: "/cute-username-generator" },
+  { label: "Goth",      href: "/goth-username-generator" },
+  { label: "Random",    href: "/random-username-generator" },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* Google Analytics 4 */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-KWXFCWKK1W"
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KWXFCWKK1W');
+          `}
+        </Script>
+      </head>
       <body className="min-h-screen flex flex-col bg-white">
+
+        {/* Navigation */}
         <header className="bg-white border-b sticky top-0 z-50" style={{ borderColor: "rgba(13,122,123,0.15)" }}>
           <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2.5">
@@ -76,6 +92,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <main className="flex-1">{children}</main>
 
+        {/* Footer */}
         <footer style={{ background: "#0d1a1a", color: "white" }} className="mt-20">
           <div className="max-w-5xl mx-auto px-4 py-12">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
@@ -111,7 +128,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "#6b7280" }}>Legal</p>
                 <ul className="space-y-2">
-                  {[["Privacy Policy","/privacy"],["About","/about"],["Contact","/contact"]].map(([label, href]) => (
+                  {[["Privacy Policy", "/privacy"], ["About", "/about"], ["Contact", "/contact"]].map(([label, href]) => (
                     <li key={href}>
                       <Link href={href} className="text-sm transition-colors" style={{ color: "#9ca3af" }}>{label}</Link>
                     </li>
@@ -125,6 +142,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </footer>
+
       </body>
     </html>
   );
