@@ -1,204 +1,137 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import UsernameGenerator from "@/components/UsernameGenerator";
 import AffiliateCard from "@/components/AffiliateCard";
-import { ChevronRight, Info } from "lucide-react";
+import { Breadcrumb, RulesTable, TipsGrid, FAQSection, RelatedGrid, SectionTitle } from "@/components/PageShell";
+import { Info, AlertTriangle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Roblox Username Generator — Free Roblox Name Ideas",
-  description:
-    "Generate cool Roblox usernames instantly. Free Roblox name generator with gaming, cool, and unique handle ideas for your Roblox account.",
+  title: "Roblox Username Generator — Free Cool Roblox Names",
+  description: "Generate cool Roblox usernames instantly. Free Roblox name generator — unique gaming handles for your account. Changing costs Robux, so choose wisely.",
   alternates: { canonical: "https://usernamegen.online/roblox-username-generator" },
-  openGraph: {
-    title: "Roblox Username Generator — Free Roblox Name Ideas",
-    description: "Generate cool Roblox usernames instantly. Unique gaming handle ideas for your Roblox account.",
-    url: "https://usernamegen.online/roblox-username-generator",
-  },
 };
 
 const RULES = [
   { rule: "Length", detail: "3 to 20 characters" },
-  { rule: "Allowed characters", detail: "Letters (a–z, A–Z), numbers (0–9), underscores (_)" },
+  { rule: "Allowed", detail: "Letters (a–z, A–Z), numbers (0–9), underscores (_)" },
   { rule: "Not allowed", detail: "Spaces, hyphens, periods, and all other special characters" },
-  { rule: "Start character", detail: "Must start with a letter, not a number or underscore" },
-  { rule: "Uniqueness", detail: "Every Roblox username must be unique globally" },
-  { rule: "Change cost", detail: "Changing your username costs 1,000 Robux (approximately $10)" },
+  { rule: "Start character", detail: "Must start with a letter — not a number or underscore" },
+  { rule: "Uniqueness", detail: "Every Roblox username must be globally unique" },
+  { rule: "Change cost", detail: "1,000 Robux (~$10 USD) — choose carefully the first time" },
 ];
 
 const TIPS = [
-  {
-    emoji: "🎮",
-    title: "Think about your game persona",
-    body: "Your Roblox username follows you across every game. Choose something that represents how you want to be known — whether as a skilled fighter, a builder, or a role-player.",
-  },
-  {
-    emoji: "💰",
-    title: "Choose carefully — changes cost Robux",
-    body: "Unlike most platforms, changing your Roblox username costs 1,000 Robux. Take time to find a name you will be happy with long term before committing.",
-  },
-  {
-    emoji: "⚔️",
-    title: "Gaming names work best",
-    body: "Bold, action-oriented names like ShadowBlade or VoidHunter fit Roblox culture well. Overly cute or professional names can feel out of place in gaming contexts.",
-  },
-  {
-    emoji: "🔢",
-    title: "Numbers can help, but place them smartly",
-    body: "If your preferred name is taken, adding a number works — but put it in the middle or after a meaningful word, not just at the end. VoidX99 reads better than Void99.",
-  },
-  {
-    emoji: "📏",
-    title: "Keep it under 15 characters",
-    body: "Roblox allows up to 20 characters, but shorter names look cleaner in leaderboards, group chats, and friend lists. Aim for 8–14 characters.",
-  },
-  {
-    emoji: "🔤",
-    title: "No spaces — use underscores",
-    body: "Roblox does not allow spaces. If you want a two-word name, use an underscore: Shadow_Blade instead of Shadow Blade. One underscore maximum looks cleanest.",
-  },
+  { emoji: "🎮", title: "Think about your game persona", body: "Your Roblox username follows you across every game. Choose something that represents how you want to be known — fighter, builder, or role-player." },
+  { emoji: "💰", title: "Changes cost Robux", body: "Unlike most platforms, changing your Roblox username costs 1,000 Robux (~$10). Take time to find a name you will be happy with long-term." },
+  { emoji: "⚔️", title: "Gaming names work best", body: "Bold, action-oriented names like ShadowBlade or VoidHunter fit Roblox culture well. Overly cute or professional names can feel out of place." },
+  { emoji: "🔢", title: "Place numbers strategically", body: "If your name is taken, add a number in the middle or after a meaningful word — VoidX99 reads better than Void99." },
+  { emoji: "📏", title: "Keep it under 15 characters", body: "Roblox allows 20 characters but shorter names look cleaner in leaderboards, group chats, and friend lists. Aim for 8–14." },
+  { emoji: "🔤", title: "No spaces — use underscores", body: "Roblox does not allow spaces. If you want a two-word name, use an underscore: Shadow_Blade. One underscore maximum looks cleanest." },
+];
+
+// ── Unique module: Robux cost reminder + name checklist ──
+const CHECKLIST = [
+  { item: "Is it under 15 characters?", why: "Shorter names display better across all Roblox game interfaces" },
+  { item: "Does it start with a letter?", why: "Roblox requires usernames to start with a letter — numbers and underscores at the start are rejected" },
+  { item: "No spaces or special characters?", why: "Only letters, numbers, and underscores are allowed" },
+  { item: "Would you still like it in 2 years?", why: "Since changes cost Robux, avoid names tied to trends that may feel dated" },
+  { item: "Have you checked availability on Roblox.com?", why: "Availability must be confirmed on the actual platform — no tool can guarantee it" },
 ];
 
 const FAQS = [
-  {
-    q: "How long can a Roblox username be?",
-    a: "Roblox usernames must be between 3 and 20 characters long. Names shorter than 3 characters are not allowed, and names over 20 characters will be rejected.",
-  },
-  {
-    q: "How much does it cost to change a Roblox username?",
-    a: "Changing your Roblox username costs 1,000 Robux, which is approximately $10 USD. This is a one-time cost each time you change your name, so choose carefully.",
-  },
-  {
-    q: "Can I use spaces in a Roblox username?",
-    a: "No. Roblox usernames cannot contain spaces. Use underscores to separate words — for example, Shadow_Blade or Dark_Wolf.",
-  },
-  {
-    q: "What characters are allowed in a Roblox username?",
-    a: "Roblox usernames can contain letters (a–z, A–Z), numbers (0–9), and underscores (_). Spaces, hyphens, periods, and other special characters are not allowed.",
-  },
-  {
-    q: "Can my Roblox username start with a number?",
-    a: "No. Roblox usernames must start with a letter. Starting with a number or underscore is not permitted.",
-  },
-  {
-    q: "What are cool Roblox username ideas?",
-    a: "Cool Roblox usernames typically combine action words with powerful imagery — names like ShadowBlade, VoidHunter, PhantomStrike, or NeonWolf are popular styles. Use our Gaming style option to generate names in this style.",
-  },
-  {
-    q: "Is the Roblox username generator free?",
-    a: "Yes, completely free with no account or sign-up required. Generate as many Roblox username ideas as you need.",
-  },
+  { q: "How much does it cost to change a Roblox username?", a: "Changing your Roblox username costs 1,000 Robux, which is approximately $10 USD. This applies every time you change your name, so choose carefully from the start." },
+  { q: "How long can a Roblox username be?", a: "Roblox usernames must be between 3 and 20 characters. For best display across the game, aim for 8–14 characters." },
+  { q: "Can I use spaces in a Roblox username?", a: "No. Use underscores to separate words — Shadow_Blade instead of Shadow Blade." },
+  { q: "Can my Roblox username start with a number?", a: "No. Roblox usernames must start with a letter. Numbers and underscores at the start are not permitted." },
+  { q: "What are cool Roblox username ideas?", a: "Cool Roblox usernames combine action words with powerful imagery — ShadowBlade, VoidHunter, PhantomStrike, NeonWolf. Use our Gaming style to generate names in this direction." },
+  { q: "Is the Roblox username generator free?", a: "Yes, completely free. No account or sign-up required." },
 ];
 
 const RELATED = [
-  { label: "Xbox Username Generator", href: "/xbox-username-generator", emoji: "🕹️" },
-  { label: "Discord Username Generator", href: "/discord-username-generator", emoji: "💬" },
-  { label: "Gaming Username Generator", href: "/gaming-username-generator", emoji: "🎮" },
-  { label: "Random Username Generator", href: "/random-username-generator", emoji: "🎲" },
+  { label: "Xbox Generator",    href: "/xbox-username-generator",    emoji: "🕹️" },
+  { label: "Discord Generator", href: "/discord-username-generator", emoji: "💬" },
+  { label: "Gaming Generator",  href: "/gaming-username-generator",  emoji: "🎮" },
+  { label: "Random Generator",  href: "/random-username-generator",  emoji: "🎲" },
 ];
 
 export default function RobloxPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Roblox Username Generator", applicationCategory: "UtilitiesApplication", operatingSystem: "Web", url: "https://usernamegen.online/roblox-username-generator", description: "Free Roblox username generator. Create cool Roblox names instantly.", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Roblox Username Generator", applicationCategory: "UtilitiesApplication", operatingSystem: "Web", url: "https://usernamegen.online/roblox-username-generator", description: "Free Roblox username generator.", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQS.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }) }} />
 
-      <div className="max-w-5xl mx-auto px-4 py-10 md:py-14">
-
-        <nav className="flex items-center gap-1.5 text-xs text-gray-400 mb-6">
-          <Link href="/" className="hover:text-brand-600">Home</Link>
-          <ChevronRight size={12} />
-          <span className="text-gray-600">Roblox Username Generator</span>
-        </nav>
-
-        <section className="mb-10">
-          <div className="inline-flex items-center gap-2 bg-red-50 text-red-600 text-xs font-medium px-3 py-1 rounded-full mb-4">
+      <section style={{ background: "linear-gradient(160deg, #fef2f2 0%, #fee2e2 60%, #f0f9f9 100%)" }} className="relative overflow-hidden">
+        <div className="absolute top-[-60px] right-[-40px] w-48 h-48 rounded-full opacity-10" style={{ background: "#ef4444" }} />
+        <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
+          <Breadcrumb label="Roblox Username Generator" />
+          <div className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full mb-5" style={{ background: "#dc2626", color: "#fff" }}>
             🧱 Roblox
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-black leading-tight tracking-tight mb-4" style={{ color: "#0d1a1a" }}>
             Roblox Username Generator
           </h1>
-          <p className="text-gray-500 text-base md:text-lg max-w-2xl">
-            Find the perfect Roblox username — cool, unique, and gaming-ready. Generate hundreds of Roblox name ideas instantly, for free.
+          <p className="text-base md:text-lg max-w-2xl mb-8" style={{ color: "#4a6060" }}>
+            Find the perfect Roblox username — cool, unique, and gaming-ready. Changing your name costs 1,000 Robux, so use our generator to find something you will love long-term.
           </p>
-        </section>
+          <UsernameGenerator initialStyle="gaming" platformFocus="Roblox" placeholder="Enter a keyword or style…" />
+        </div>
+      </section>
 
-        <section className="mb-10">
-          <UsernameGenerator initialStyle="gaming" platformFocus="Roblox" />
-        </section>
+      <div className="max-w-5xl mx-auto px-4">
+        {/* Cost warning */}
+        <div className="mt-8 flex items-start gap-3 p-4 rounded-xl" style={{ background: "#fef3c7", border: "1px solid #fcd34d" }}>
+          <AlertTriangle size={18} style={{ color: "#d97706", flexShrink: 0, marginTop: 2 }} />
+          <div>
+            <p className="text-sm font-bold" style={{ color: "#92400e" }}>Changing costs 1,000 Robux (~$10)</p>
+            <p className="text-xs mt-0.5" style={{ color: "#92400e" }}>Unlike most platforms, Roblox charges for every username change after your initial name. Use the checklist below before committing.</p>
+          </div>
+        </div>
 
         <AffiliateCard />
 
+        {/* ── UNIQUE MODULE: Pre-commit checklist ── */}
         <section className="mt-14">
           <div className="flex items-center gap-2 mb-4">
-            <Info size={18} className="text-brand-500" />
-            <h2 className="text-xl font-bold text-gray-900">Roblox username rules</h2>
+            <AlertTriangle size={18} style={{ color: "#0d7a7b" }} />
+            <SectionTitle>Before you commit — Roblox username checklist</SectionTitle>
           </div>
-          <p className="text-gray-500 text-sm mb-5">
-            Roblox has strict username requirements. Since changing your name costs Robux, it is important to get it right the first time.
+          <p className="text-sm mb-5" style={{ color: "#4a6060" }}>
+            Since changing your Roblox username costs Robux, run through this checklist before finalising your choice.
           </p>
-          <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
-            {RULES.map((r, i) => (
-              <div key={r.rule} className={`flex items-start gap-4 px-5 py-4 text-sm ${i < RULES.length - 1 ? "border-b border-gray-50" : ""}`}>
-                <span className="font-medium text-gray-700 w-40 shrink-0">{r.rule}</span>
-                <span className="text-gray-500">{r.detail}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-14">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">6 tips for a great Roblox username</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {TIPS.map((tip) => (
-              <div key={tip.title} className="bg-white border border-gray-100 rounded-xl p-5 flex gap-4">
-                <span className="text-2xl shrink-0">{tip.emoji}</span>
-                <div>
-                  <h3 className="font-semibold text-gray-800 text-sm mb-1">{tip.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">{tip.body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-14">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">What is a Roblox username generator?</h2>
-          <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
-            <p>A Roblox username generator creates unique name ideas for your Roblox account. With over 380 million registered Roblox users, most simple name combinations are already taken — a generator saves you time by instantly producing creative alternatives.</p>
-            <p>Our generator is tuned to Roblox naming conventions: no spaces or special characters, starts with a letter, and uses the bold, gaming-style vocabulary that fits the Roblox community. Select the Gaming style for names with the right energy for Roblox culture.</p>
-            <p>Remember: changing your Roblox username costs 1,000 Robux. Use our generator to find several names you like, then check availability on Roblox before deciding.</p>
-          </div>
-        </section>
-
-        <section className="mt-14">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Frequently asked questions</h2>
           <div className="space-y-3">
-            {FAQS.map((faq) => (
-              <details key={faq.q} className="group bg-white border border-gray-100 rounded-xl overflow-hidden">
-                <summary className="flex items-center justify-between p-5 cursor-pointer text-sm font-medium text-gray-800 hover:text-brand-600 select-none list-none">
-                  {faq.q}
-                  <ChevronRight size={16} className="shrink-0 text-gray-400 group-open:rotate-90 transition-transform" />
-                </summary>
-                <div className="px-5 pb-5 text-sm text-gray-500 leading-relaxed border-t border-gray-50">
-                  <p className="pt-3">{faq.a}</p>
+            {CHECKLIST.map((c, i) => (
+              <div key={i} className="bg-white rounded-xl px-5 py-4 flex gap-4 items-start" style={{ border: "1px solid rgba(13,122,123,0.15)" }}>
+                <div className="w-6 h-6 rounded-full border-2 shrink-0 mt-0.5" style={{ borderColor: "#0d7a7b" }} />
+                <div>
+                  <p className="text-sm font-bold" style={{ color: "#0d1a1a" }}>{c.item}</p>
+                  <p className="text-xs mt-0.5" style={{ color: "#4a6060" }}>{c.why}</p>
                 </div>
-              </details>
+              </div>
             ))}
           </div>
         </section>
 
         <section className="mt-14">
-          <h2 className="text-base font-semibold text-gray-700 mb-4">Related generators</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {RELATED.map((r) => (
-              <Link key={r.href} href={r.href} className="bg-white border border-gray-100 rounded-xl p-4 text-center hover:border-brand-300 hover:shadow-card transition-all">
-                <div className="text-2xl mb-1">{r.emoji}</div>
-                <div className="text-xs font-medium text-gray-600">{r.label}</div>
-              </Link>
-            ))}
+          <div className="flex items-center gap-2 mb-4">
+            <Info size={18} style={{ color: "#0d7a7b" }} />
+            <SectionTitle>Roblox username rules</SectionTitle>
           </div>
+          <RulesTable rules={RULES} />
         </section>
 
+        <section className="mt-14">
+          <SectionTitle>6 tips for a great Roblox username</SectionTitle>
+          <TipsGrid tips={TIPS} />
+        </section>
+
+        <section className="mt-14">
+          <SectionTitle>Frequently asked questions</SectionTitle>
+          <FAQSection faqs={FAQS} />
+        </section>
+
+        <section className="mt-14 mb-16">
+          <h2 className="text-base font-bold mb-4" style={{ color: "#4a6060" }}>Related generators</h2>
+          <RelatedGrid related={RELATED} />
+        </section>
       </div>
     </>
   );

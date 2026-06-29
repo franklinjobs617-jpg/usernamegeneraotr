@@ -2,229 +2,141 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import UsernameGenerator from "@/components/UsernameGenerator";
 import AffiliateCard from "@/components/AffiliateCard";
-import { ChevronRight, Info } from "lucide-react";
+import { Breadcrumb, RulesTable, TipsGrid, FAQSection, RelatedGrid, SectionTitle } from "@/components/PageShell";
+import { Info, TrendingUp } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "TikTok Username Generator — Free TikTok Handle Ideas",
-  description:
-    "Generate unique TikTok usernames instantly. Free TikTok handle generator with creative, trending, and viral-ready name ideas.",
+  description: "Generate unique TikTok usernames instantly. Free TikTok handle generator with creative, trending name ideas for your account.",
   alternates: { canonical: "https://usernamegen.online/tiktok-username-generator" },
-  openGraph: {
-    title: "TikTok Username Generator — Free TikTok Handle Ideas",
-    description: "Generate unique TikTok usernames instantly. Creative and viral-ready handle ideas in seconds.",
-    url: "https://usernamegen.online/tiktok-username-generator",
-  },
 };
 
 const RULES = [
   { rule: "Max length", detail: "24 characters" },
-  { rule: "Min length", detail: "2 characters (in practice, very short names are all taken)" },
-  { rule: "Allowed characters", detail: "Letters, numbers, underscores (_), periods (.)" },
+  { rule: "Min length", detail: "2 characters (in practice, short names are all taken)" },
+  { rule: "Allowed", detail: "Letters, numbers, underscores (_), periods (.)" },
   { rule: "Not allowed", detail: "Spaces and most special characters" },
+  { rule: "Change limit", detail: "Once every 30 days" },
   { rule: "Uniqueness", detail: "Every TikTok username must be globally unique" },
-  { rule: "Change limit", detail: "You can change your TikTok username once every 30 days" },
 ];
 
 const TIPS = [
-  {
-    emoji: "🎵",
-    title: "Short wins on TikTok",
-    body: "TikTok culture rewards brevity. Handles under 15 characters appear fully in comments, duets, and stitches. Longer names get truncated in the feed.",
-  },
-  {
-    emoji: "🔥",
-    title: "Think about your niche",
-    body: "TikTok's algorithm is content-first, but a niche-specific handle (like dancewithjay or cookingwithsam) signals to new viewers what your channel is about before they watch a single video.",
-  },
-  {
-    emoji: "📱",
-    title: "Make it easy to say out loud",
-    body: "TikTok creators often get mentioned in podcasts, YouTube videos, and IRL conversation. A handle people can say and spell from hearing it alone has a huge advantage.",
-  },
-  {
-    emoji: "⚡",
-    title: "Avoid heavy punctuation",
-    body: "One underscore or period is fine. Two or more make the handle hard to type on mobile and difficult to remember. Keep it clean.",
-  },
-  {
-    emoji: "🌍",
-    title: "Check availability on Instagram too",
-    body: "Most TikTok creators cross-post to Instagram Reels. Secure the same handle on both platforms before you start posting — it gets harder to reclaim once you have followers.",
-  },
-  {
-    emoji: "🕐",
-    title: "You only get one change per month",
-    body: "TikTok limits username changes to once every 30 days. Take time to choose carefully — you cannot quickly undo a change if you regret it.",
-  },
+  { emoji: "🎵", title: "Short wins on TikTok", body: "Handles under 15 characters appear fully in comments, duets, and stitches. Longer names get truncated in the feed." },
+  { emoji: "🔥", title: "Think about your niche", body: "A niche-specific handle signals to new viewers what your channel is about before they watch a single video." },
+  { emoji: "📱", title: "Make it easy to say out loud", body: "TikTok creators get mentioned in podcasts and IRL. A handle people can say and spell from hearing it alone has a huge advantage." },
+  { emoji: "⚡", title: "Avoid heavy punctuation", body: "One underscore or period is fine. Two or more make the handle hard to type on mobile. Keep it clean." },
+  { emoji: "🌍", title: "Check Instagram availability too", body: "Most TikTok creators cross-post to Instagram Reels. Secure the same handle on both before you start posting." },
+  { emoji: "🕐", title: "You only get one change per month", body: "TikTok limits username changes to once every 30 days. Choose carefully — you cannot quickly undo a change." },
+];
+
+// ── Unique module: TikTok trending name patterns ──
+const TRENDING_PATTERNS = [
+  { pattern: "by[Name]",        example: "bysophia",       why: "Creator attribution style — popular for artists, chefs, designers" },
+  { pattern: "its[Name]",       example: "itsjordann",     why: "Casual, conversational — works for lifestyle and personality content" },
+  { pattern: "[Name]creates",   example: "miacreates",     why: "Signals creative content — art, crafts, cooking" },
+  { pattern: "[Niche][Name]",   example: "fitwithjay",     why: "Niche-first — fitness, beauty, finance content" },
+  { pattern: "[Name]talks",     example: "alextalks",      why: "Commentary and opinion content" },
+  { pattern: "the[Name]edit",   example: "theeditbyluna",  why: "Video editing and aesthetic compilations" },
 ];
 
 const FAQS = [
-  {
-    q: "How long can a TikTok username be?",
-    a: "TikTok usernames can be between 2 and 24 characters. In practice, almost all short names are taken, so expect to use 8–20 characters for a unique handle.",
-  },
-  {
-    q: "How do I change my TikTok username?",
-    a: "Open TikTok, go to your profile, tap Edit Profile, then tap your username. Type your new username and tap Save. You can only change it once every 30 days.",
-  },
-  {
-    q: "Can I use spaces in a TikTok username?",
-    a: "No. TikTok usernames cannot contain spaces. Use underscores or periods to separate words — for example, luna_dance or luna.dance.",
-  },
-  {
-    q: "What makes a TikTok username go viral?",
-    a: "No username alone makes content go viral, but a memorable, short handle helps viewers remember and search for you after discovering your content. Niche-relevant names also help TikTok surface your profile to the right audience.",
-  },
-  {
-    q: "Can I have the same TikTok username as someone on Instagram?",
-    a: "Yes. TikTok and Instagram have separate username databases. However, for personal branding consistency, it is best to secure the same handle on both platforms.",
-  },
-  {
-    q: "Is this TikTok username generator free?",
-    a: "Yes, completely free with no sign-up required. Generate as many TikTok username ideas as you need.",
-  },
+  { q: "How long can a TikTok username be?", a: "TikTok usernames can be between 2 and 24 characters. In practice, almost all short names are taken — expect to use 8–20 characters." },
+  { q: "How do I change my TikTok username?", a: "Open TikTok, go to your profile, tap Edit Profile, then tap your username. You can only change it once every 30 days." },
+  { q: "Can I use spaces in a TikTok username?", a: "No. Use underscores or periods to separate words — luna_dance or luna.dance." },
+  { q: "What makes a TikTok username go viral?", a: "No username alone makes content go viral, but a memorable, short handle helps viewers remember and search for you after discovering your content." },
+  { q: "Can I have the same TikTok username as someone on Instagram?", a: "Yes. TikTok and Instagram have separate username databases. However, for consistency, it is best to secure the same handle on both." },
+  { q: "Is this TikTok username generator free?", a: "Yes, completely free with no sign-up required." },
 ];
 
 const RELATED = [
-  { label: "Instagram Username Generator", href: "/instagram-username-generator", emoji: "📸" },
-  { label: "Aesthetic Username Generator", href: "/aesthetic-username-generator", emoji: "🌸" },
-  { label: "Cute Username Generator", href: "/cute-username-generator", emoji: "🐾" },
-  { label: "Random Username Generator", href: "/random-username-generator", emoji: "🎲" },
+  { label: "Instagram Generator", href: "/instagram-username-generator", emoji: "📸" },
+  { label: "Aesthetic Generator", href: "/aesthetic-username-generator", emoji: "🌸" },
+  { label: "Cute Generator",      href: "/cute-username-generator",      emoji: "🐾" },
+  { label: "Random Generator",    href: "/random-username-generator",    emoji: "🎲" },
 ];
 
 export default function TikTokPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: "TikTok Username Generator",
-            applicationCategory: "UtilitiesApplication",
-            operatingSystem: "Web",
-            url: "https://usernamegen.online/tiktok-username-generator",
-            description: "Free TikTok username generator. Create unique TikTok handles instantly.",
-            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: FAQS.map((f) => ({
-              "@type": "Question",
-              name: f.q,
-              acceptedAnswer: { "@type": "Answer", text: f.a },
-            })),
-          }),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "TikTok Username Generator", applicationCategory: "UtilitiesApplication", operatingSystem: "Web", url: "https://usernamegen.online/tiktok-username-generator", description: "Free TikTok username generator.", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQS.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }) }} />
 
-      <div className="max-w-5xl mx-auto px-4 py-10 md:py-14">
-
-        <nav className="flex items-center gap-1.5 text-xs text-gray-400 mb-6">
-          <Link href="/" className="hover:text-brand-600">Home</Link>
-          <ChevronRight size={12} />
-          <span className="text-gray-600">TikTok Username Generator</span>
-        </nav>
-
-        <section className="mb-10">
-          <div className="inline-flex items-center gap-2 bg-gray-50 text-gray-700 text-xs font-medium px-3 py-1 rounded-full mb-4">
+      <section style={{ background: "linear-gradient(160deg, #0d1a1a 0%, #1a2e2e 60%, #0d2020 100%)" }} className="relative overflow-hidden">
+        <div className="absolute top-[-60px] right-[-40px] w-48 h-48 rounded-full opacity-10" style={{ background: "#fff" }} />
+        <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
+          <Breadcrumb label="TikTok Username Generator" />
+          <div className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full mb-5" style={{ background: "rgba(255,255,255,0.15)", color: "#fff" }}>
             🎵 TikTok
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-black leading-tight tracking-tight mb-4" style={{ color: "#fff" }}>
             TikTok Username Generator
           </h1>
-          <p className="text-gray-500 text-base md:text-lg max-w-2xl">
-            Find the perfect TikTok handle in seconds. Generate creative, memorable, and on-trend usernames for your TikTok account — free, no sign-up needed.
+          <p className="text-base md:text-lg max-w-2xl mb-8" style={{ color: "#9ca3af" }}>
+            Find the perfect TikTok handle in seconds. Creative, memorable, and on-trend username ideas — free, no sign-up needed.
           </p>
-        </section>
+          <UsernameGenerator initialStyle="aesthetic" platformFocus="TikTok" placeholder="Enter your name or niche…" />
+        </div>
+      </section>
 
-        <section className="mb-10">
-          <UsernameGenerator initialStyle="aesthetic" platformFocus="TikTok" />
-        </section>
-
+      <div className="max-w-5xl mx-auto px-4">
         <AffiliateCard />
+
+        {/* ── UNIQUE MODULE: TikTok name patterns ── */}
+        <section className="mt-14">
+          <div className="flex items-center gap-2 mb-2">
+            <TrendingUp size={18} style={{ color: "#0d7a7b" }} />
+            <SectionTitle>TikTok creator name patterns that work</SectionTitle>
+          </div>
+          <p className="text-sm mb-6" style={{ color: "#4a6060" }}>
+            Successful TikTok creators follow predictable naming patterns. Here are the most effective formulas — with real examples and why they work.
+          </p>
+          <div className="space-y-3">
+            {TRENDING_PATTERNS.map((p) => (
+              <div key={p.pattern} className="bg-white rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-3" style={{ border: "1px solid rgba(13,122,123,0.15)" }}>
+                <div className="shrink-0 sm:w-36">
+                  <span className="font-mono text-xs font-bold px-2 py-1 rounded" style={{ background: "#0d1a1a", color: "#0d7a7b" }}>
+                    {p.pattern}
+                  </span>
+                </div>
+                <div className="shrink-0 sm:w-36">
+                  <span className="font-mono text-sm font-semibold" style={{ color: "#0d1a1a" }}>@{p.example}</span>
+                </div>
+                <p className="text-xs" style={{ color: "#4a6060" }}>{p.why}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-14">
           <div className="flex items-center gap-2 mb-4">
-            <Info size={18} className="text-brand-500" />
-            <h2 className="text-xl font-bold text-gray-900">TikTok username rules</h2>
+            <Info size={18} style={{ color: "#0d7a7b" }} />
+            <SectionTitle>TikTok username rules</SectionTitle>
           </div>
-          <p className="text-gray-500 text-sm mb-5">
-            TikTok has specific requirements for usernames. Our generator follows all of these rules so every suggestion is valid.
-          </p>
-          <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
-            {RULES.map((r, i) => (
-              <div key={r.rule} className={`flex items-start gap-4 px-5 py-4 text-sm ${i < RULES.length - 1 ? "border-b border-gray-50" : ""}`}>
-                <span className="font-medium text-gray-700 w-40 shrink-0">{r.rule}</span>
-                <span className="text-gray-500">{r.detail}</span>
-              </div>
-            ))}
+          <RulesTable rules={RULES} />
+        </section>
+
+        <section className="mt-14">
+          <SectionTitle>6 tips for a great TikTok username</SectionTitle>
+          <TipsGrid tips={TIPS} />
+        </section>
+
+        <section className="mt-14">
+          <SectionTitle>What is a TikTok username generator?</SectionTitle>
+          <div className="space-y-3 text-sm leading-relaxed" style={{ color: "#4a6060" }}>
+            <p>A TikTok username generator creates unique handle ideas for your TikTok account. With over 1 billion active users, almost every simple name combination is already taken. A generator saves you from manually checking dozens of names by producing fresh, creative ideas instantly.</p>
+            <p>Our tool lets you enter a keyword — your name, a theme, or a niche — and choose a style. The generator produces 20 handle ideas tuned to TikTok culture. Use the patterns above as inspiration, then generate variations using your own name or niche as the keyword.</p>
           </div>
         </section>
 
         <section className="mt-14">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">6 tips for a great TikTok username</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {TIPS.map((tip) => (
-              <div key={tip.title} className="bg-white border border-gray-100 rounded-xl p-5 flex gap-4">
-                <span className="text-2xl shrink-0">{tip.emoji}</span>
-                <div>
-                  <h3 className="font-semibold text-gray-800 text-sm mb-1">{tip.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">{tip.body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <SectionTitle>Frequently asked questions</SectionTitle>
+          <FAQSection faqs={FAQS} />
         </section>
 
-        <section className="mt-14">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">What is a TikTok username generator?</h2>
-          <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
-            <p>
-              A TikTok username generator creates unique handle ideas for your TikTok account. TikTok has over 1 billion active users, meaning almost every simple name combination is already taken. A generator saves you from manually checking dozens of names by producing fresh, creative ideas instantly.
-            </p>
-            <p>
-              Our tool lets you enter a keyword — your name, a theme, or a niche — and choose a style. The generator then produces 20 handle ideas tuned to TikTok culture. You can refresh as many times as needed until you find one that feels right.
-            </p>
-          </div>
+        <section className="mt-14 mb-16">
+          <h2 className="text-base font-bold mb-4" style={{ color: "#4a6060" }}>Related generators</h2>
+          <RelatedGrid related={RELATED} />
         </section>
-
-        <section className="mt-14">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Frequently asked questions</h2>
-          <div className="space-y-3">
-            {FAQS.map((faq) => (
-              <details key={faq.q} className="group bg-white border border-gray-100 rounded-xl overflow-hidden">
-                <summary className="flex items-center justify-between p-5 cursor-pointer text-sm font-medium text-gray-800 hover:text-brand-600 select-none list-none">
-                  {faq.q}
-                  <ChevronRight size={16} className="shrink-0 text-gray-400 group-open:rotate-90 transition-transform" />
-                </summary>
-                <div className="px-5 pb-5 text-sm text-gray-500 leading-relaxed border-t border-gray-50">
-                  <p className="pt-3">{faq.a}</p>
-                </div>
-              </details>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-14">
-          <h2 className="text-base font-semibold text-gray-700 mb-4">Related generators</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {RELATED.map((r) => (
-              <Link key={r.href} href={r.href} className="bg-white border border-gray-100 rounded-xl p-4 text-center hover:border-brand-300 hover:shadow-card transition-all">
-                <div className="text-2xl mb-1">{r.emoji}</div>
-                <div className="text-xs font-medium text-gray-600">{r.label}</div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
       </div>
     </>
   );

@@ -1,191 +1,132 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import UsernameGenerator from "@/components/UsernameGenerator";
 import AffiliateCard from "@/components/AffiliateCard";
-import { ChevronRight, Info } from "lucide-react";
+import { Breadcrumb, RulesTable, TipsGrid, FAQSection, RelatedGrid, SectionTitle } from "@/components/PageShell";
+import { Info } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Discord Username Generator — Free Discord Name Ideas",
-  description:
-    "Generate unique Discord usernames instantly. Free Discord handle generator with cool, gaming, and creative name ideas for your Discord account.",
+  title: "Discord Username Generator — Free Discord Handle Ideas",
+  description: "Generate unique Discord usernames instantly. Free Discord handle generator — creative, gaming, and cool name ideas for your account.",
   alternates: { canonical: "https://usernamegen.online/discord-username-generator" },
 };
 
 const RULES = [
   { rule: "Length", detail: "2 to 32 characters" },
-  { rule: "Allowed characters", detail: "Most Unicode characters, letters, numbers, underscores, periods, hyphens" },
-  { rule: "Not allowed", detail: "Spaces at the start or end; the word \"discord\"; usernames that imply official Discord accounts" },
-  { rule: "Format (new)", detail: "Since 2023, Discord uses a single @username system — no more #0000 discriminators" },
-  { rule: "Uniqueness", detail: "Usernames must be globally unique (case-insensitive)" },
-  { rule: "Display name", detail: "Separate from username — your display name can be anything and changes per server" },
+  { rule: "Allowed", detail: "Letters, numbers, underscores, periods, hyphens" },
+  { rule: "Not allowed", detail: "Spaces at start or end; the word 'discord'; impersonation names" },
+  { rule: "System (2023+)", detail: "Single unique @username — no more #0000 discriminators" },
+  { rule: "Uniqueness", detail: "Globally unique, case-insensitive" },
+  { rule: "Display name", detail: "Separate from username — can differ per server" },
 ];
 
 const TIPS = [
-  {
-    emoji: "💬",
-    title: "Username vs display name",
-    body: "Discord has two names: your @username (unique, used to find you) and your display name (can be different in each server). Put creativity into your display name — keep your username simple and memorable.",
-  },
-  {
-    emoji: "🎮",
-    title: "Match your gaming identity",
-    body: "Most Discord users are gamers. A handle that fits your gaming persona — bold, edgy, or clever — will feel natural in gaming servers and communities.",
-  },
-  {
-    emoji: "🔗",
-    title: "Keep it consistent with other platforms",
-    body: "If you already have a handle on Twitch, Steam, or Xbox, use the same or similar name on Discord. Friends can find you faster, and it builds a cohesive online identity.",
-  },
-  {
-    emoji: "✍️",
-    title: "Avoid very long names",
-    body: "Discord allows up to 32 characters, but long names get cut off in voice channels and small server windows. Stay under 18 characters for the best readability.",
-  },
-  {
-    emoji: "🌐",
-    title: "Since 2023, discriminators are gone",
-    body: "Discord removed the old tag system (e.g. Username#1234). Now every username must be globally unique, like a Twitter handle. This means more names are taken — be creative.",
-  },
-  {
-    emoji: "🔒",
-    title: "Do not include personal information",
-    body: "Discord is often used in public servers with strangers. Avoid usernames that include your real name, location, or year of birth.",
-  },
+  { emoji: "💬", title: "Username vs display name", body: "Your @username is used to find you. Your display name shows in servers and can be different per server. Keep your username simple — get creative with display names." },
+  { emoji: "🎮", title: "Match your gaming identity", body: "Most Discord users are gamers. A handle that fits your gaming persona feels natural in gaming servers and communities." },
+  { emoji: "🔗", title: "Match your other platforms", body: "If you already have a handle on Twitch, Steam, or Xbox, use the same or similar name on Discord. Friends find you faster." },
+  { emoji: "✍️", title: "Keep it under 18 characters", body: "Discord allows 32 characters, but long names get cut off in voice channels. Stay under 18 for best readability." },
+  { emoji: "🌐", title: "Discriminators are gone since 2023", body: "Discord removed the #1234 tag system. Now every username must be globally unique, like a Twitter handle — be creative." },
+  { emoji: "🔒", title: "Avoid personal information", body: "Discord is often used in public servers. Avoid usernames with your real name, location, or birth year." },
+];
+
+// ── Unique module: Username vs Display Name explainer ──
+const COMPARISONS = [
+  { field: "Where it appears", username: "@username — in friend requests, DMs, profile URL", display: "Display name — in server chats, voice channels, member list" },
+  { field: "Uniqueness", username: "Globally unique across all of Discord", display: "Not unique — many users can have the same display name" },
+  { field: "Customization", username: "One name for all servers", display: "Can be different in every server" },
+  { field: "How to change", username: "Settings → My Account → Username", display: "Server Settings → Edit Server Profile" },
+  { field: "Character limit", username: "2–32 characters", display: "1–32 characters" },
+  { field: "Allowed characters", username: "Letters, numbers, . _ -", display: "Almost anything including spaces and emoji" },
 ];
 
 const FAQS = [
-  {
-    q: "How long can a Discord username be?",
-    a: "Discord usernames can be between 2 and 32 characters long. For best readability in servers and voice channels, aim for 8–18 characters.",
-  },
-  {
-    q: "Does Discord still use the # discriminator system?",
-    a: "No. Discord removed the discriminator system (e.g. Username#1234) in 2023. Every user now has a unique @username, similar to Twitter or Instagram handles.",
-  },
-  {
-    q: "How do I change my Discord username?",
-    a: "Click the user settings gear icon at the bottom left, go to My Account, then click on your username and type a new one. Note that changing your username too frequently may trigger a temporary cooldown.",
-  },
-  {
-    q: "Can I have spaces in my Discord username?",
-    a: "No, spaces are not allowed in Discord usernames. However, your display name (the name shown in servers) can include spaces. Usernames can use underscores or hyphens instead.",
-  },
-  {
-    q: "What is the difference between a Discord username and a display name?",
-    a: "Your Discord username is your unique @handle used to search for and add you. Your display name is what appears in servers and can be customized per server. You can have a different display name in every server while keeping one username.",
-  },
-  {
-    q: "Is the Discord username generator free?",
-    a: "Yes, completely free with no account required. Generate as many Discord username ideas as you need.",
-  },
+  { q: "How long can a Discord username be?", a: "Discord usernames can be between 2 and 32 characters. For best readability in servers and voice channels, aim for 8–18 characters." },
+  { q: "Does Discord still use the # discriminator system?", a: "No. Discord removed discriminators in 2023. Every user now has a unique @username, similar to Twitter or Instagram handles." },
+  { q: "What is the difference between a Discord username and a display name?", a: "Your username is your unique @handle used to find and add you. Your display name is what appears in servers and can be customized per server — you can have a different display name in every server." },
+  { q: "Can I have spaces in my Discord username?", a: "No. Use underscores or hyphens instead. Your display name can include spaces." },
+  { q: "Is the Discord username generator free?", a: "Yes, completely free with no account required." },
 ];
 
 const RELATED = [
-  { label: "Xbox Username Generator", href: "/xbox-username-generator", emoji: "🕹️" },
-  { label: "Roblox Username Generator", href: "/roblox-username-generator", emoji: "🧱" },
-  { label: "Gaming Username Generator", href: "/gaming-username-generator", emoji: "🎮" },
-  { label: "Random Username Generator", href: "/random-username-generator", emoji: "🎲" },
+  { label: "Xbox Generator",   href: "/xbox-username-generator",    emoji: "🕹️" },
+  { label: "Roblox Generator", href: "/roblox-username-generator",  emoji: "🧱" },
+  { label: "Gaming Generator", href: "/gaming-username-generator",  emoji: "🎮" },
+  { label: "Random Generator", href: "/random-username-generator",  emoji: "🎲" },
 ];
 
 export default function DiscordPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Discord Username Generator", applicationCategory: "UtilitiesApplication", operatingSystem: "Web", url: "https://usernamegen.online/discord-username-generator", description: "Free Discord username generator. Create unique Discord handles instantly.", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Discord Username Generator", applicationCategory: "UtilitiesApplication", operatingSystem: "Web", url: "https://usernamegen.online/discord-username-generator", description: "Free Discord username generator.", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQS.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }) }} />
 
-      <div className="max-w-5xl mx-auto px-4 py-10 md:py-14">
-
-        <nav className="flex items-center gap-1.5 text-xs text-gray-400 mb-6">
-          <Link href="/" className="hover:text-brand-600">Home</Link>
-          <ChevronRight size={12} />
-          <span className="text-gray-600">Discord Username Generator</span>
-        </nav>
-
-        <section className="mb-10">
-          <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 text-xs font-medium px-3 py-1 rounded-full mb-4">
+      <section style={{ background: "linear-gradient(160deg, #eef2ff 0%, #e0e7ff 60%, #f0f9f9 100%)" }} className="relative overflow-hidden">
+        <div className="absolute top-[-60px] right-[-40px] w-48 h-48 rounded-full opacity-10" style={{ background: "#6366f1" }} />
+        <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
+          <Breadcrumb label="Discord Username Generator" />
+          <div className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full mb-5" style={{ background: "#5865f2", color: "#fff" }}>
             💬 Discord
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-black leading-tight tracking-tight mb-4" style={{ color: "#0d1a1a" }}>
             Discord Username Generator
           </h1>
-          <p className="text-gray-500 text-base md:text-lg max-w-2xl">
-            Generate unique Discord usernames instantly. Since Discord removed discriminators in 2023, every handle must be globally unique — find yours now.
+          <p className="text-base md:text-lg max-w-2xl mb-8" style={{ color: "#4a6060" }}>
+            Since Discord removed discriminators in 2023, every handle must be globally unique. Find yours now — gaming-ready, creative, and instantly available to check.
           </p>
-        </section>
+          <UsernameGenerator initialStyle="gaming" platformFocus="Discord" placeholder="Enter a keyword or name…" />
+        </div>
+      </section>
 
-        <section className="mb-10">
-          <UsernameGenerator initialStyle="gaming" platformFocus="Discord" />
-        </section>
-
+      <div className="max-w-5xl mx-auto px-4">
         <AffiliateCard />
+
+        {/* ── UNIQUE MODULE: Username vs Display Name ── */}
+        <section className="mt-14">
+          <SectionTitle>Discord username vs display name — what is the difference?</SectionTitle>
+          <p className="text-sm mb-5" style={{ color: "#4a6060" }}>
+            Discord has two separate names. Most people do not realise they work very differently. Here is exactly how they compare.
+          </p>
+          <div className="bg-white rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(13,122,123,0.15)" }}>
+            <div className="grid grid-cols-3 px-5 py-3 text-xs font-bold uppercase tracking-wide" style={{ background: "#0d1a1a", color: "#9ca3af" }}>
+              <span>Field</span>
+              <span style={{ color: "#0d7a7b" }}>@Username</span>
+              <span style={{ color: "#fff" }}>Display name</span>
+            </div>
+            {COMPARISONS.map((c, i) => (
+              <div
+                key={c.field}
+                className="grid grid-cols-3 px-5 py-3.5 text-sm gap-2"
+                style={{ borderTop: i > 0 ? "1px solid rgba(13,122,123,0.08)" : "none" }}
+              >
+                <span className="font-semibold text-xs" style={{ color: "#0d1a1a" }}>{c.field}</span>
+                <span className="text-xs" style={{ color: "#4a6060" }}>{c.username}</span>
+                <span className="text-xs" style={{ color: "#4a6060" }}>{c.display}</span>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-14">
           <div className="flex items-center gap-2 mb-4">
-            <Info size={18} className="text-brand-500" />
-            <h2 className="text-xl font-bold text-gray-900">Discord username rules</h2>
+            <Info size={18} style={{ color: "#0d7a7b" }} />
+            <SectionTitle>Discord username rules</SectionTitle>
           </div>
-          <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
-            {RULES.map((r, i) => (
-              <div key={r.rule} className={`flex items-start gap-4 px-5 py-4 text-sm ${i < RULES.length - 1 ? "border-b border-gray-50" : ""}`}>
-                <span className="font-medium text-gray-700 w-40 shrink-0">{r.rule}</span>
-                <span className="text-gray-500">{r.detail}</span>
-              </div>
-            ))}
-          </div>
+          <RulesTable rules={RULES} />
         </section>
 
         <section className="mt-14">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">6 tips for a great Discord username</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {TIPS.map((tip) => (
-              <div key={tip.title} className="bg-white border border-gray-100 rounded-xl p-5 flex gap-4">
-                <span className="text-2xl shrink-0">{tip.emoji}</span>
-                <div>
-                  <h3 className="font-semibold text-gray-800 text-sm mb-1">{tip.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">{tip.body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <SectionTitle>6 tips for a great Discord username</SectionTitle>
+          <TipsGrid tips={TIPS} />
         </section>
 
         <section className="mt-14">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">What is a Discord username generator?</h2>
-          <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
-            <p>A Discord username generator creates unique handle ideas for your Discord account. Since Discord moved to a unique username system in 2023, finding an available name has become significantly harder — especially for common words and names.</p>
-            <p>Our generator produces creative combinations tuned to Discord culture: gaming-oriented, bold, and memorable. Select the Gaming or Random style for names that fit well in Discord servers, or try Professional for work and study communities.</p>
-          </div>
+          <SectionTitle>Frequently asked questions</SectionTitle>
+          <FAQSection faqs={FAQS} />
         </section>
 
-        <section className="mt-14">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Frequently asked questions</h2>
-          <div className="space-y-3">
-            {FAQS.map((faq) => (
-              <details key={faq.q} className="group bg-white border border-gray-100 rounded-xl overflow-hidden">
-                <summary className="flex items-center justify-between p-5 cursor-pointer text-sm font-medium text-gray-800 hover:text-brand-600 select-none list-none">
-                  {faq.q}
-                  <ChevronRight size={16} className="shrink-0 text-gray-400 group-open:rotate-90 transition-transform" />
-                </summary>
-                <div className="px-5 pb-5 text-sm text-gray-500 leading-relaxed border-t border-gray-50">
-                  <p className="pt-3">{faq.a}</p>
-                </div>
-              </details>
-            ))}
-          </div>
+        <section className="mt-14 mb-16">
+          <h2 className="text-base font-bold mb-4" style={{ color: "#4a6060" }}>Related generators</h2>
+          <RelatedGrid related={RELATED} />
         </section>
-
-        <section className="mt-14">
-          <h2 className="text-base font-semibold text-gray-700 mb-4">Related generators</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {RELATED.map((r) => (
-              <Link key={r.href} href={r.href} className="bg-white border border-gray-100 rounded-xl p-4 text-center hover:border-brand-300 hover:shadow-card transition-all">
-                <div className="text-2xl mb-1">{r.emoji}</div>
-                <div className="text-xs font-medium text-gray-600">{r.label}</div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
       </div>
     </>
   );
