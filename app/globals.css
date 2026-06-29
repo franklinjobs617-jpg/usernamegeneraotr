@@ -1,66 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg: #f8f9fc;
-  --surface: #ffffff;
-  --brand: #6366f1;
-  --brand-dark: #4f46e5;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --border: #e5e7eb;
+  /* Brand */
+  --teal:        #0d7a7b;
+  --teal-dark:   #095859;
+  --teal-light:  #e0f2f2;
+  --teal-mist:   #f0f9f9;
+  --night:       #0d1a1a;
+  --muted:       #4a6060;
+  --border-teal: #c8e8e8;
+
+  /* Accent CTA */
+  --spark:       #ff6b35;
+  --spark-dark:  #e55a26;
+
+  /* Neutrals */
+  --white:       #ffffff;
+  --gray-50:     #f8fafa;
+  --gray-100:    #f0f4f4;
+  --gray-200:    #e0eaea;
+  --gray-400:    #94a8a8;
+  --gray-600:    #4a6060;
+  --gray-900:    #0d1a1a;
+
+  /* Style card backgrounds */
+  --card-gaming:     #0d1a2e;
+  --card-aesthetic:  #2d1a3e;
+  --card-cute:       #3e1a2a;
+  --card-goth:       #1a1a1a;
+  --card-professional: #0d2e1a;
+  --card-random:     #2e2a0d;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--bg);
-  color: var(--text-primary);
+  background-color: var(--white);
+  color: var(--night);
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Smooth copy button animation */
-.copy-btn-success {
-  animation: flash 0.3s ease;
+/* Focus */
+input:focus,
+button:focus-visible,
+select:focus {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
 }
 
-@keyframes flash {
-  0%   { background-color: #6366f1; }
-  50%  { background-color: #10b981; }
-  100% { background-color: #6366f1; }
+/* Copy animation */
+@keyframes copied {
+  0%   { background: var(--teal); }
+  40%  { background: #10b981; }
+  100% { background: var(--teal); }
 }
-
-/* Tool card hover */
-.username-card:hover {
-  border-color: #818cf8;
-  background-color: #f0f4ff;
-}
+.copy-success { animation: copied 0.5s ease; }
 
 /* Spinner */
 .spinner {
-  border: 2px solid #e5e7eb;
-  border-top-color: #6366f1;
+  border: 2px solid var(--teal-light);
+  border-top-color: var(--teal);
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   animation: spin 0.6s linear infinite;
 }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+/* Style cards hover glow */
+.style-card:hover { transform: translateY(-2px); }
+.style-card { transition: transform 0.15s ease; }
 
-/* Focus ring */
-input:focus, button:focus-visible, select:focus {
-  outline: 2px solid #6366f1;
-  outline-offset: 2px;
+/* Username result card hover */
+.result-card:hover {
+  border-color: var(--teal);
+  background: var(--teal-mist);
 }
+.result-card { transition: border-color 0.12s, background 0.12s; }

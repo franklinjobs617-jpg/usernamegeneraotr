@@ -1,48 +1,50 @@
-import { Shield, ExternalLink } from "lucide-react";
+import { ShieldCheck, ExternalLink } from "lucide-react";
 
-interface AffiliateProduct {
+interface Product {
   name: string;
   tagline: string;
-  commission: string;
   href: string;
   badge?: string;
 }
 
-const PRODUCTS: AffiliateProduct[] = [
+const PRODUCTS: Product[] = [
   {
     name: "NordPass",
-    tagline: "Secure, remember, and autofill all your usernames & passwords.",
-    commission: "Top pick",
-    href: "https://nordpass.com", // replace with your affiliate link
+    tagline: "Securely store all your usernames and passwords in one place. Autofills on any device.",
+    href: "https://nordpass.com", // replace with affiliate link
     badge: "Most popular",
   },
   {
     name: "Dashlane",
-    tagline: "Store unlimited passwords and get real-time breach alerts.",
-    commission: "Recommended",
-    href: "https://dashlane.com", // replace with your affiliate link
+    tagline: "Unlimited password storage with real-time breach alerts and dark web monitoring.",
+    href: "https://dashlane.com", // replace with affiliate link
   },
   {
     name: "1Password",
-    tagline: "Trusted by 15M+ people. Your usernames safe in one place.",
-    commission: "Premium",
-    href: "https://1password.com", // replace with your affiliate link
+    tagline: "Trusted by 15M+ people. One click to fill usernames and passwords everywhere.",
+    href: "https://1password.com", // replace with affiliate link
   },
 ];
 
 export default function AffiliateCard() {
   return (
-    <section className="bg-brand-50 border border-brand-100 rounded-2xl p-6 md:p-8 mt-10">
-      <div className="flex items-start gap-3 mb-5">
-        <div className="p-2 bg-brand-100 rounded-lg shrink-0">
-          <Shield className="text-brand-600" size={20} />
+    <section
+      className="rounded-2xl p-6 md:p-8 mt-10"
+      style={{ background: "#0d1a1a" }}
+    >
+      <div className="flex items-start gap-3 mb-6">
+        <div
+          className="p-2 rounded-xl shrink-0"
+          style={{ background: "rgba(13,122,123,0.3)" }}
+        >
+          <ShieldCheck className="text-teal-light" size={20} />
         </div>
         <div>
-          <h2 className="text-base font-semibold text-gray-900">
+          <h2 className="text-base font-bold text-white mb-0.5">
             Save your username securely
           </h2>
-          <p className="text-sm text-gray-500 mt-0.5">
-            A password manager stores all your usernames and passwords — autofills them instantly on any device.
+          <p className="text-sm text-gray-400 leading-relaxed">
+            A password manager stores all your handles and passwords — autofills instantly on every device and browser.
           </p>
         </div>
       </div>
@@ -54,28 +56,43 @@ export default function AffiliateCard() {
             href={p.href}
             target="_blank"
             rel="noopener noreferrer sponsored"
-            className="group bg-white rounded-xl border border-gray-100 p-4 hover:border-brand-300 hover:shadow-card transition-all flex flex-col justify-between"
+            className="group flex flex-col justify-between rounded-xl p-4 transition-all"
+            style={{
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(13,122,123,0.2)";
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(13,122,123,0.5)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)";
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)";
+            }}
           >
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-semibold text-gray-900 text-sm">{p.name}</span>
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold text-white text-sm">{p.name}</span>
                 {p.badge && (
-                  <span className="text-xs bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full font-medium">
+                  <span
+                    className="text-xs px-2 py-0.5 rounded-full font-semibold"
+                    style={{ background: "rgba(13,122,123,0.4)", color: "#b2e8e8" }}
+                  >
                     {p.badge}
                   </span>
                 )}
               </div>
-              <p className="text-xs text-gray-500 leading-relaxed">{p.tagline}</p>
+              <p className="text-xs text-gray-400 leading-relaxed">{p.tagline}</p>
             </div>
-            <div className="mt-3 flex items-center gap-1 text-xs font-medium text-brand-600 group-hover:text-brand-700">
+            <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-teal-light">
               Try free <ExternalLink size={11} />
             </div>
           </a>
         ))}
       </div>
 
-      <p className="text-xs text-gray-400 mt-3">
-        * This page contains affiliate links. We may earn a commission at no extra cost to you.
+      <p className="text-xs text-gray-600 mt-4">
+        * Affiliate links — we may earn a commission at no extra cost to you.
       </p>
     </section>
   );

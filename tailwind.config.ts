@@ -9,26 +9,30 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50:  "#f0f4ff",
-          100: "#e0eaff",
-          200: "#c7d7fe",
-          400: "#818cf8",
-          500: "#6366f1",
-          600: "#4f46e5",
-          700: "#4338ca",
+        teal: {
+          DEFAULT: "#0d7a7b",
+          dark:    "#095859",
+          light:   "#e0f2f2",
+          mist:    "#f0f9f9",
         },
-        surface: {
-          0: "#f8f9fc",
-          1: "#ffffff",
-        },
+        night:  "#0d1a1a",
+        muted:  "#4a6060",
+        spark:  "#ff6b35",
+        "border-teal": "#c8e8e8",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        card: "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
-        tool: "0 4px 24px rgba(99,102,241,0.10)",
+        tool: "0 4px 24px rgba(13,122,123,0.10)",
+        card: "0 1px 4px rgba(13,26,26,0.06)",
+        lift: "0 8px 32px rgba(13,122,123,0.14)",
+      },
+      backgroundImage: {
+        "hero-dots": "radial-gradient(circle, #0d7a7b22 1px, transparent 1px)",
+      },
+      backgroundSize: {
+        "dots": "28px 28px",
       },
     },
   },
