@@ -6,13 +6,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const pages = [
-    { url: "/",                               priority: 1.0,  changeFreq: "weekly" },
-    { url: "/instagram-username-generator",   priority: 0.9,  changeFreq: "weekly" },
-    { url: "/random-username-generator",      priority: 0.9,  changeFreq: "weekly" },
-    { url: "/tiktok-username-generator",      priority: 0.85, changeFreq: "weekly" },
-    { url: "/roblox-username-generator",      priority: 0.85, changeFreq: "weekly" },
-    { url: "/aesthetic-username-generator",   priority: 0.85, changeFreq: "weekly" },
-    { url: "/email-username-generator",       priority: 0.85, changeFreq: "weekly" },
+    { url: "/",                               priority: 1.0,  changeFreq: "weekly"  },
+    { url: "/instagram-username-generator",   priority: 0.9,  changeFreq: "weekly"  },
+    { url: "/random-username-generator",      priority: 0.9,  changeFreq: "weekly"  },
+    { url: "/tiktok-username-generator",      priority: 0.85, changeFreq: "weekly"  },
+    { url: "/roblox-username-generator",      priority: 0.85, changeFreq: "weekly"  },
+    { url: "/aesthetic-username-generator",   priority: 0.85, changeFreq: "weekly"  },
+    { url: "/email-username-generator",       priority: 0.85, changeFreq: "weekly"  },
+    { url: "/gmail-username-generator",       priority: 0.85, changeFreq: "weekly"  },
     { url: "/xbox-username-generator",        priority: 0.8,  changeFreq: "monthly" },
     { url: "/discord-username-generator",     priority: 0.8,  changeFreq: "monthly" },
     { url: "/gaming-username-generator",      priority: 0.8,  changeFreq: "monthly" },
